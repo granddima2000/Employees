@@ -6,10 +6,11 @@ const AppFilter = (props) => {
         {name: 'rise', label: 'Сотрудники на повышение'},
         {name: 'moreThen1000', label: 'З/П больше 1000$'},
         {name: 'men', label: 'Мужчины'},
+        {name: 'women', label: 'Женщины'},
 
     ];
 
-    const buttons = buttonsData.map(({name, label}) => { //map новый[] по этим данным
+    const buttons = buttonsData.map(({name, label}) => {
         const active = props.filter === name;
         const clazz = active ? 'btn-light' : 'btn-outline-light';
         return (

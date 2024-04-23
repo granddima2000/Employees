@@ -1,10 +1,29 @@
+import { Component } from 'react';
 import './employees-list-item.css'
 
-const EmployeesListItem = (props) => {
+class EmployeesListItem extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            salary: this.props.salary
+        };
+    }
 
-    const {name, salary, onDelete, onToggleProp, increase, rise, onChangeSalary} = props;
+    changesInput = (e) => {
+        const { onChangeSalary, name } = this.props;
+        const value = +e.target.value.slice(0, -1); // Убираем $, потому что нам он приходит из value
+        this.setState(({ salary }) => ({
+          salary: value, 
+        }));
+    
+        onChangeSalary(name, value);
+      };
 
+    render() {
     let classNames = "list-group-item d-flex justify-content-between";
+
+    const { name, onDelete, onToggleProp, increase, rise } = this.props;
+    
     if (increase) {
         classNames += ' increase';
     }
@@ -12,15 +31,14 @@ const EmployeesListItem = (props) => {
         classNames += ' like'
     }
     
-    const changesInput = (e) => {
-        const value = e.target.value;
-        onChangeSalary(value);
-    };
+    
 
     return (
     <li className={classNames}>
-        <span className="list-group-item-label" onClick={onToggleProp} data-toggle="rise">{name}</span>
-        <input type="text" className="list-group-item-input" value={salary + '$'} onChange={changesInput}/>
+        <span className="list-group-item-label" 
+        onClick={onToggleProp} 
+        data-toggle="rise">{name}</span>
+        <input type="text" className="list-group-item-input" value={this.state.salary + "$"} onChange={this.changesInput}/>
         <div className="d-flex justify-content-center align-items-center">
             <button type="button" 
                 className="btn-cookie btn-sm "
@@ -38,6 +56,7 @@ const EmployeesListItem = (props) => {
         </div>
     </li>   
         )
+    }
     }
 
     

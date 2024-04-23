@@ -13,14 +13,15 @@ class App extends Component {
         super(props);
         this.state = {
             data: [ // БД
-                {name: "Dima R.", salary: 800, increase: true, rise: true, men: true, id: 1},
-                {name: "Alex B.", salary: 3000, increase: false, rise: false, men: true, id: 2},
-                {name: "Greg B.", salary: 5000, increase: true, rise: false, men: true, id: 3}
+                {name: "Дмитрий Р.", salary: 800, increase: true, rise: true, men: true, women: false, id: 1},
+                {name: "Анастасия В.", salary: 9000, increase: false, rise: false, men: false, women: true, id: 2},
+                {name: "Грегорий Б.", salary: 5000, increase: true, rise: false, men: true, women: false, id: 3},
+                {name: "Александр Б.", salary: 7000, increase: false, rise: false, men: true, women: false, id: 4}
             ],
             term: "", //будет приходить из SearchPanel, а туда попадать при внесение инфо в value польз.
             filter: "all" //по умолчанию отражаются все сотрудники
         }
-        this.maxId = 4;
+        this.maxId = 5;
     }
 
     deleteItem = (id) => {
@@ -81,6 +82,8 @@ class App extends Component {
                 return items.filter(item => item.salary > 1000)
             case 'men': 
                 return items.filter(item => item.men)
+            case 'women': 
+                return items.filter(item => item.women)
             default: 
                 return items;
         }
@@ -91,28 +94,30 @@ class App extends Component {
     };
 
 
-    onChangeSalary = (id, salary, value) => {
-        this.setState(({data}) => {
-            data.map(item => {
-                
-                if (item.id === id) {
-                    return {...item, [salary]: value}
-                }
-                return item;
-            });
-        });
-    };
+    onChangeSalary = (name, salary) => {
+        this.setState(({ data }) => ({
+          data: data.map((item) => {
+            if (item.name === name) {
+              return { ...item, salary };
+            }
+            return item;
+          }),
+        }));
+      };
+
+    
 
 
     render() {
         const {data, term, filter} = this.state;
         const employees = this.state.data.length;
         const increased = this.state.data.filter(item => item.increase).length;
+        const rise = this.state.data.filter(item => item.rise).length;
         const visibleData = this.filterPost(this.searchEmp(data, term), filter); // предварительно фильтруем массив 
 
         return (
             <div className="app">
-                <AppInfo employees={employees} increased={increased}/>
+                <AppInfo employees={employees} increased={increased} rise={rise}/>
     
                 <div className="search-panel">
                     <SearchPanel onUpdateSearch={this.onUpdateSearch}/>

@@ -12,7 +12,7 @@ const EmployeesList = ({data, onDelete, onToggleProp, onChangeSalary}) => { //п
             {...itemProps}
             onDelete={() => onDelete(id)} //полученный из пропсов onDelete изменили указав стрелочную и id и передали далее в EmployeesListItem
             onToggleProp={(e) => onToggleProp(id, e.currentTarget.getAttribute('data-toggle'))}
-            onChangeSalary={(value) => onChangeSalary(id, value)}
+            onChangeSalary={onChangeSalary}
             /> //e.currentTarget - всегда совпадает эл-том, на ктр обработчик события был назначен и когда один и тот же обр. события присваивается нескольк. эл.
         );
     });
